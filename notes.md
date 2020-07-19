@@ -6,3 +6,6 @@ Principles of approach:
 * Partner users do not need to register with M3
 * Partner users will only have access to specific agreed pieces of content, they are not logging into M3 sites
 * Agreed set of profile information is shared for reporting purposes, but never enough to personally identify someone
+
+![Oauth simplified flow](./oauthsimple.png "Oauth simplified flow")
+

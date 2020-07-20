@@ -35,7 +35,7 @@ As a minimum M3 will report on total engagement (impressions and clicks) and uni
 For more detailed reporting M3 requires extra information to be passed, these are known as "scopes". The below defines typical scopes that can be used:
 
 |  Scope |  Description 
-|---|---|---|---|---|
+|---|---|
 | `User ID`  | A unique ID per user, may be a string or number 
 | `Specialty`  | The user's medical specialty
 | `Seniority` | The user's medical seniority
@@ -75,5 +75,6 @@ To enable all of the above the Partner needs to implement the following API endp
 |---|---|---|---|---|
 | `GET`  | `/oauth/auth` | If the M3 client finds that the user has no valid session, then it will redirect the user to the PP Authorise endpoint.
 | `POST`  | `/oauth/token` | After the PP has redirected the user to the M3OC callback endpoint, a server‑to‑server request will be made to exchange the provided auth_code for a valid access_token . The POST body will be sent with form encoding.
+| `GET` | `/oauth/profile` | Returns scoped profile information
 | `GET` | `/api/header` | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page  |
 | `GET` | `/api/footer` | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page  |

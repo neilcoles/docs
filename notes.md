@@ -11,7 +11,7 @@ Principles of this approach:
 
 ## Simplified Overview of Flow
 
-Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document but the below gives a simplied view of the process.
+Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document but the below gives a simplified view of the process.
 
 If already logged into the partner site the flow below will be invisible to the user and happen "behind the scenes". If not already logged in they will be presented with the Partner site login screen after the first step.
 

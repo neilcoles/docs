@@ -30,7 +30,7 @@ Alternatively if the header/footer are static and the same for all users, the pa
 
 ## Reporting
 
-As a minimum M3 will report on total engagement (impressions and clicks) and unique user engagement, and the only requirement for this to be possible is for an unique ID to be sent for each user as part of the Oauth flow.
+As a minimum M3 will report on total engagement (impressions and clicks) and unique user engagement, and the only requirement for this to be possible is for a unique ID to be sent for each user as part of the Oauth flow.
 
 For more detailed reporting M3 requires extra information to be passed, these are known as "scopes". The below defines typical scopes that can be used:
 

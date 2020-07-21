@@ -5,32 +5,34 @@
 The proposal is to utilise the Oauth 2.0 standard to share specific pieces of M3 content with members of a partner community in a way that is secure and enables M3 to accurately track engagement.
 
 Principles of this approach:
-* Partner users do not need to register with M3
-* Partner users will only have access to specific agreed pieces of content, they are not "logging in" to M3 websites
-* Agreed set of profile information is shared for reporting purposes only, but never enough to personally identify a user
+* Partner members do not need to register with M3
+* Partner members will only have access to specific agreed pieces of content, they are not granted access to M3 websites as a whole
+* Agreed set of member profile information is shared with M3 for reporting purposes only, but never enough to personally identify a user
 
 ## Simplified Overview of Flow
 
-Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document but the below gives a simplified view of the process.
+Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document, but the below gives a simplified view of the flow.
 
-If already logged into the partner site the flow below will be invisible to the user and happen "behind the scenes". If not already logged in they will be presented with the Partner site login screen after the first step.
+If the partner member is already logged into the partner site the flow below will be invisible to the user and happen "behind the scenes". If not already logged in the member will be interrupted with the partner site login form after the first step.
 
-![Oauth simplified flow](./oauthsimple.png "Oauth simplified flow")
+<p align="center">
+<img src="./oauthsimple.png" />
+</p>
 
 ## Header/Footer (optional)
-If it is desired for partner users to "feel" like they are still on partner systems, partners can provide a header and footer to frame the M3 content.
+There is the option of wrapping the M3 content inside a partner header and footer. This gives the user the impression that they are moving to another area of the partner's site. To acheive this M3 requires the partner to provide separate API endpoints which return the HTML of the header or the footer as requested.
 
-This also provides the users a means to get back to the partner website.
+This also provides the member a means to get back to the partner website.
 
-If the header is personalised (for example has their name on it) then the partner should provide endpoints which will return the correct html to be injected into the page.
+If the partner header/footer is static, i.e. has no personalisation and is the same for all members, the HTML can simply be provided to M3 by the partner prior to content being published (no API endpoints needed).
 
-Alternatively if the header/footer are static and the same for all users, the partner can supply M3 the html blob to be inserted on the page, with no endpoints neccesary.
-
-![Oauth simplified flow](./headerfooter.png "Oauth simplified flow")
+<p align="center">
+<img src="./headerfooter.png" />
+</p>
 
 ## Reporting
 
-As a minimum M3 will report on total engagement (impressions and clicks) and unique user engagement, and the only requirement for this to be possible is for a unique ID to be sent for each user as part of the Oauth flow.
+As a minimum M3 will report on total engagement (impressions and clicks) and unique member engagement, and the only requirement for this to be possible is for a unique ID to be sent for each member as part of the Oauth flow.
 
 For more detailed reporting M3 requires extra information to be passed, these are known as "scopes". The below defines typical scopes that can be used:
 
@@ -43,7 +45,7 @@ For more detailed reporting M3 requires extra information to be passed, these ar
 | `Doctor` | True or False. Useful for distinguishing staff/test accounts for example
 | `Groups` | This allows an arbitary list of tags to be assigned to a user. Can be useful if custom reporting is required that can't be satisfied by the above, for example by age groups
 
-It is important that whatever info is transfered isn't enough to personally identify anyone. For example if postcode was passed in groups this may be fine on it's own. but in combination with user specialty it may become enough to find someone's identity.
+It is important that whatever info is transfered isn't enough to personally identify anyone. For example if postcode was passed in groups this may be fine on it's own, but in combination with user specialty it may become enough to find someone's identity.
 
 # Technical Implementation
 
@@ -65,7 +67,9 @@ access_token .
 access_token .
 5. Create a cookie‑based session on the M3 Client.
 
-![Oauth simplified flow](./fullflow.png "Oauth simplified flow")
+<p align="center">
+<img src="./fullflow.png" />
+</p>
 
 ## API Specification
 

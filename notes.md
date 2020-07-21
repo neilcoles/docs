@@ -11,7 +11,7 @@ Principles of this approach:
 
 ## Simplified Overview of Flow
 
-Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document but the below gives a simplied view of the process.
+Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document but the below gives a simplified view of the process.
 
 If already logged into the partner site the flow below will be invisible to the user and happen "behind the scenes". If not already logged in they will be presented with the Partner site login screen after the first step.
 
@@ -30,12 +30,12 @@ Alternatively if the header/footer are static and the same for all users, the pa
 
 ## Reporting
 
-As a minimum M3 will report on total engagement (impressions and clicks) and unique user engagement, and the only requirement for this to be possible is for an unique ID to be sent for each user as part of the Oauth flow.
+As a minimum M3 will report on total engagement (impressions and clicks) and unique user engagement, and the only requirement for this to be possible is for a unique ID to be sent for each user as part of the Oauth flow.
 
 For more detailed reporting M3 requires extra information to be passed, these are known as "scopes". The below defines typical scopes that can be used:
 
 |  Scope |  Description 
-|---|---|---|---|---|
+|---|---|
 | `User ID`  | A unique ID per user, may be a string or number 
 | `Specialty`  | The user's medical specialty
 | `Seniority` | The user's medical seniority
@@ -75,5 +75,6 @@ To enable all of the above the Partner needs to implement the following API endp
 |---|---|---|---|---|
 | `GET`  | `/oauth/auth` | If the M3 client finds that the user has no valid session, then it will redirect the user to the PP Authorise endpoint.
 | `POST`  | `/oauth/token` | After the PP has redirected the user to the M3OC callback endpoint, a server‑to‑server request will be made to exchange the provided auth_code for a valid access_token . The POST body will be sent with form encoding.
+| `GET` | `/oauth/profile` | Returns scoped profile information
 | `GET` | `/api/header` | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page  |
 | `GET` | `/api/footer` | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page  |

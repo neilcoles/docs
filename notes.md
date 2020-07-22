@@ -1,8 +1,31 @@
 # Sharing M3 content with Partners
 
-# Overview
-## Approach
-The proposal is to utilise the Oauth 2.0 standard to share specific pieces of M3 content with members of a partner community in a way that is secure and enables M3 to accurately track engagement.
+## Contents
+
+- [Introduction](#Introduction)
+  * [Overview of Oauth 2.0 solution](#overview-of-oauth-20-solution)
+  * [Simplified Overview of Flow](#simplified-overview-of-flow)
+  * [Header/Footer (optional)](#header-footer--optional-)
+  * [Reporting](#reporting)
+  * [Overview of signed URLs solution](#overview-of-signed-urls-solution)
+- [Oauth 2.0 Technical Implementation](#oauth-20-technical-implementation)
+  * [Introduction](#introduction)
+  * [OAuth Authentication Flow](#oauth-authentication-flow)
+  * [API Specification](#api-specification)
+- [Signed URLs technical implementation](#signed-urls-technical-implementation)
+
+## Introduction
+
+The purpose of this document is to outline two solutions for enabling M3 content to be shared with verified users of partner communities.
+
+The two solutions are:
+1. Oauth 2.0
+2. Signed URLs 
+
+The first half of this document will give a general overview of the two solutions on offer which should be enough to decide which is most appropriate.  The second half then gives detailed implementation details of each.
+
+## Overview of Oauth 2.0 solution
+The first proposal is to utilise the Oauth 2.0 standard to share specific pieces of M3 content with users of a partner community in a way that is secure and enables M3 to accurately track engagement.
 
 Principles of this approach:
 * Partner members do not need to register with M3
@@ -47,7 +70,25 @@ For more detailed reporting M3 requires extra information to be passed, these ar
 
 It is important that whatever info is transfered isn't enough to personally identify anyone. For example if postcode was passed in groups this may be fine on it's own, but in combination with user specialty it may become enough to find someone's identity.
 
-# Technical Implementation
+## Overview of signed URLs solution
+
+For partners that don't already have Oauth 2.0 capabilities it can be quite an undertaking to implement, therefore M3 offers signed URLs as a much simpler option.
+
+In this approach the partner site generates links to the M3 content which have a special encrypted token in the URL for example: ` https://content.m3medical.com/partnerauth?payload=ewoJIlBhcnRuZXIiOiJQQVJUTkVSSUQiLAkJCQkJCQkJKiByZXF1=`
+
+The payload part would be generated with a secret key provided by M3, meaning only M3 can decrypt it.
+
+Each link would only be valid for a short period of time, which is designed to prevent users sharing links. If M3 detects an expired link, the user will be redirected back to the partner site where a fresh link can be generated.
+
+An overview of this flow can be seen in the diagram below.
+
+<p align="center">
+<img src="./signed header.png" />
+</p>
+
+
+
+# Oauth 2.0 Technical Implementation
 
 ## Introduction
 
@@ -82,3 +123,6 @@ To enable all of the above the Partner needs to implement the following API endp
 | `GET` | `/oauth/profile` | Returns scoped profile information
 | `GET` | `/api/header` | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page  |
 | `GET` | `/api/footer` | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page  |
+
+# Signed URLs technical implementation
+

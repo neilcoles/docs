@@ -2,17 +2,16 @@
 
 ## Contents
 
-- [Introduction](#Introduction)
-  - [Overview of Oauth 2.0 solution](#overview-of-oauth-20-solution)
-  - [Simplified Overview of Flow](#simplified-overview-of-flow)
-  - [Header/Footer (optional)](#header-footer--optional-)
-  - [Reporting](#reporting)
-  - [Overview of signed URLs solution](#overview-of-signed-urls-solution)
-- [Oauth 2.0 Technical Implementation](#oauth-20-technical-implementation)
-  - [Introduction](#introduction)
+- [Introduction](#introduction)
+- [Overview of Oauth 2.0 solution](#overview-of-oauth-20-solution)
+- [Header/Footer (optional)](#header-footer--optional-)
+- [Reporting](#reporting)
+- [Overview of signed URLs solution](#overview-of-signed-urls-solution)
+* [Oauth 2.0 Technical Implementation](#oauth-20-technical-implementation)
+  - [Introduction](#introduction-1)
   - [OAuth Authentication Flow](#oauth-authentication-flow)
   - [API Specification](#api-specification)
-- [Signed URLs technical implementation](#signed-urls-technical-implementation)
+* [Signed URLs Technical Implementation](#signed-urls-technical-implementation)
 
 ## Introduction
 
@@ -23,7 +22,7 @@ The two solutions are:
 1. Oauth 2.0
 2. Signed URLs
 
-The first half of this document will give a general overview of the two solutions on offer which should be enough to decide which is most appropriate. The second half then gives detailed implementation details of each.
+The first half of this document will give a general overview of the two solutions on offer which should provide enough to decide on which option is most appropriate. The second half then gives detailed implementation details for each.
 
 ## Overview of Oauth 2.0 solution
 
@@ -31,35 +30,33 @@ The first proposal is to utilise the Oauth 2.0 standard to share specific pieces
 
 Principles of this approach:
 
-- Partner members do not need to register with M3
-- Partner members will only have access to specific agreed pieces of content, they are not granted access to M3 websites as a whole
-- Agreed set of member profile information is shared with M3 for reporting purposes only, but never enough to personally identify a user
+- Partner users do not need to register with M3
+- Partner users will only have access to specific agreed pieces of content, they are not granted access to M3 websites as a whole
+- Agreed set of user profile information is shared with M3 for reporting purposes only, but never enough to personally identify a user
 
-## Simplified Overview of Flow
-
-Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document, but the below gives a simplified view of the flow.
-
-If the partner member is already logged into the partner site the flow below will be invisible to the user and happen "behind the scenes". If not already logged in the member will be interrupted with the partner site login form after the first step.
+Detailed documentation of the Oauth flow and work needed to implement it can be found later in this document, but the below illustration gives a simplified view of the flow.
 
 <p align="center">
-<img src="./oauthsimple.png" />
+<img width="80%" src="./oauthsimple.png" />
 </p>
+
+If the partner user is already logged into the partner site the flow below will be invisible to the user and happen "behind the scenes". If not already logged in the user will be interrupted with the partner site login form after the first step.
 
 ## Header/Footer (optional)
 
 There is the option of wrapping the M3 content inside a partner header and footer. This gives the user the impression that they are moving to another area of the partner's site. To acheive this M3 requires the partner to provide separate API endpoints which return the HTML of the header or the footer as requested.
 
-This also provides the member a means to get back to the partner website.
+This also provides the user a means to get back to the partner website.
 
-If the partner header/footer is static, i.e. has no personalisation and is the same for all members, the HTML can simply be provided to M3 by the partner prior to content being published (no API endpoints needed).
+If the partner header/footer is static, i.e. has no personalisation and is the same for all user, the HTML can simply be provided to M3 by the partner prior to content being published (no API endpoints needed).
 
 <p align="center">
-<img src="./headerfooter.png" />
+<img width="75%" src="./headerfooter.png" />
 </p>
 
 ## Reporting
 
-As a minimum M3 will report on total engagement (impressions and clicks) and unique member engagement, and the only requirement for this to be possible is for a unique ID to be sent for each member as part of the Oauth flow.
+As a minimum M3 will report on total engagement (impressions and clicks) and unique user engagement, and the only requirement for this to be possible is for a unique ID to be sent for each user as part of the Oauth flow.
 
 For more detailed reporting M3 requires extra information to be passed, these are known as "scopes". The below defines typical scopes that can be used:
 
@@ -78,11 +75,11 @@ It is important that whatever info is transfered isn't enough to personally iden
 
 For partners that don't already have Oauth 2.0 capabilities it can be quite an undertaking to implement, therefore M3 offers signed URLs as a much simpler option.
 
-In this approach the partner site generates links to the M3 content which have a special encoded token in the URL for example: `https://partnerauth.m3medical.com/campaign?t=ewoJIlBhcnRuZXIiOiJQQVJUTkVSSUQiLAkJCQkJCQkJKiByZXF1=`.
+In this approach the partner site generates urls for M3 content which have a special encoded token within them (e.g.  `https://partnerauth.m3medical.com/campaign?t=ewoJIlBhcnRuZXIiOiJQQVJUTkVSSUQiLAkJCQkJCQkJKiByZXF1=`), then redirect the user there.
 
-The token part would have a digital signature generated with a secret key provided by M3, meaning as long as the secret is kept securely M3 can verify that the user has arrived via the partner site. It also contains a unique identifer per user so M3 can report on user interactions accurately.
+The token part would have a digital signature generated with a secret key provided by M3, meaning as long as the secret is kept securely M3 can verify that the user has arrived via the partner site. It also contains a unique identifer per user so M3 can report on user engagement accurately.
 
-Each link would only be valid for a short period of time, which is designed to prevent users sharing links. If M3 detects an expired link, the user will be redirected back to the partner site where a fresh token and link can be generated.
+Each token would only be valid for a short period of time, which is designed to prevent users sharing links. If M3 detects an expired token, the user will be redirected back to the partner site where a fresh token and redirect url can be generated.
 
 An overview of this flow can be seen in the diagram below.
 
@@ -127,13 +124,13 @@ To enable all of the above the Partner needs to implement the following API endp
 | `GET`  | `/api/header`    | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page                                                                                                                                |
 | `GET`  | `/api/footer`    | (OPTIONAL) Serves the site header as a snippet of HTML that can be inserted into any page                                                                                                                                |
 
-# Signed URLs technical implementation
+# Signed URLs Technical Implementation
 
-In order to grant access to M3 content the partner site must generate a Json Web Token (JWT) which is added to the query string of a url.
+In order to grant access to M3 content the partner site must generate a JSON Web Token (JWT) which is added to the query string of a url.
 
 M3 will provide the url and secret key to partner.
 
-The token consists of an expiry date (recommended expiry times will be confirmed by M3), and a simple JSON object containing as a minimum a user id. Extra info can be passed for reporting purposes, this will be agreed according to needs of the specific partner integration.
+The token consists of an expiry date (recommended token lifespan will be confirmed by M3), and a simple JSON object containing as a minimum a unique user id. Extra information can be passed for reporting purposes, this will be agreed according to the needs of the specific partner integration.
 
 Below shows how this can be acheived in Javascript (specifically NodeJS). M3 can provide examples for most of the main programming languages if needed.
 

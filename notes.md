@@ -109,7 +109,7 @@ be summarised by the following points:
 5. Create a cookie‑based session on the M3 Client.
 
 <p align="center">
-<img src="./fullflow.png" />
+<img src="./fullflow.PNG" />
 </p>
 
 ## API Specification
